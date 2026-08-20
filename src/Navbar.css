@@ -1,0 +1,148 @@
+/* ==========================================================================
+   Fixed Custom Navbar with Icons & Neon Accent
+   ========================================================================== */
+
+.custom-navbar {
+  background: rgba(242, 243, 247, 0.884);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 10px 0;
+  
+  /* Strictly fix to top during scroll */
+   position: sticky !important;
+  top: 0 !important;
+  z-index: 1030 !important;
+  width: 100%;
+}
+
+/* Blue glow line separator under navbar */
+.custom-navbar::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2.5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #11a9ff 20%,
+    #11a9ff 80%,
+    transparent 100%
+  );
+  box-shadow: 
+    0 0 8px #11a9ff,
+    0 0 16px rgba(17, 169, 255, 0.6),
+    0 0 24px rgba(17, 169, 255, 0.3);
+}
+
+.navbar-brand-custom {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.navbar-brand-custom img {
+  height: 65px;
+  width: 220px;
+  max-width: 180px;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+
+.navbar-brand-custom img:hover {
+  transform: scale(1.03);
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Nav Item Link with Icon */
+.nav-item-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: #011b3b;
+  font-size: 1.12rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+/* SVG icon sizing & transition */
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  transition: transform 0.2s ease, stroke 0.2s ease;
+}
+
+.nav-item-link:hover {
+  color: #0a2747;
+  background: linear-gradient(180deg, #e7ebf0, #d0d7e2);
+
+}
+
+.nav-item-link:hover .nav-icon {
+  transform: translateY(-1px);
+}
+
+/* Active Link State */
+.active-link {
+  background: linear-gradient(180deg, #e7ebf0, #d0d7e2);
+  color: #0a2747 !important;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.active-link .nav-icon {
+  stroke: #0a2747;
+}
+
+.active-link::after {
+  content: "";
+  position: absolute;
+  left: 10%;
+  bottom: -6px;
+  width: 80%;
+  height: 3px;
+  border-radius: 3px;
+  background: #11a9ff;
+  box-shadow: 0 0 8px #11a9ff;
+}
+
+/* Mobile Toggler */
+.navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.4);
+  padding: 6px 10px;
+}
+
+.navbar-toggler-icon {
+  filter: invert(1);
+}
+
+/* Mobile Responsive Drawer */
+@media (max-width: 992px) {
+  .navbar-links {
+    gap: 10px;
+    align-items: stretch;
+    padding-top: 15px;
+    padding-bottom: 10px;
+  }
+
+  .nav-item-link {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 14px;
+  }
+
+  .navbar-brand-custom img {
+    height: 50px;
+  }
+}
