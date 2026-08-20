@@ -22,8 +22,6 @@ import {
   AvatarGroup,
   Card,
   CardContent,
-  ToggleButton,
-  ToggleButtonGroup,
 } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -42,11 +40,6 @@ import SpeedIcon from '@mui/icons-material/Speed';
 import DiamondIcon from '@mui/icons-material/Diamond';
 import FlashOnIcon from '@mui/icons-material/FlashOn';
 import AddIcon from '@mui/icons-material/Add';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
-import ViewModuleIcon from '@mui/icons-material/ViewModule';
-import ViewListIcon from '@mui/icons-material/ViewList';
-import GridViewIcon from '@mui/icons-material/GridView';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const projectsData = [
@@ -294,216 +287,168 @@ const HeroSection = styled(Box)(({ theme }) => ({
   textAlign: 'center',
 }));
 
-// ===== NEW TAB DESIGN: PILL TABS =====
-const PillTabsContainer = styled(Box)(({ theme }) => ({
-  display: 'inline-flex',
-  padding: '6px',
-  background: 'rgba(255,255,255,0.6)',
-  backdropFilter: 'blur(20px)',
-  borderRadius: '50px',
-  border: '1px solid rgba(255,255,255,0.8)',
-  boxShadow: '0 4px 24px rgba(0,0,0,0.02)',
-  gap: '4px',
-}));
-
-const PillTab = styled(motion.button)(({ theme, active }) => ({
-  padding: '8px 28px',
-  borderRadius: '50px',
-  border: 'none',
-  background: active ? 'linear-gradient(135deg, #1a56db, #3b82f6, #60a5fa)' : 'transparent',
-  color: active ? '#ffffff' : '#64748b',
-  fontSize: '0.8rem',
-  fontWeight: 600,
-  cursor: 'pointer',
-  transition: 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
-  boxShadow: active ? '0 4px 20px rgba(26,86,219,0.25)' : 'none',
-  '&:hover': {
-    color: active ? '#ffffff' : '#1a56db',
-    background: active ? 'linear-gradient(135deg, #1a56db, #3b82f6, #60a5fa)' : 'rgba(26,86,219,0.04)',
-  },
-  '& .count': {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: active ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.04)',
-    borderRadius: '50px',
-    padding: '0 8px',
-    fontSize: '0.55rem',
-    fontWeight: 700,
-    height: '18px',
-    minWidth: '18px',
-    transition: 'all 0.3s ease',
-  },
-}));
-
-// ===== MODERN CARD DESIGN =====
-const ModernCard = styled(motion.div)(({ theme, color }) => ({
+// ===== MINIMALIST CARD DESIGN =====
+const MinimalCard = styled(motion.div)(({ theme, color }) => ({
   height: '100%',
-  borderRadius: '24px',
+  borderRadius: '16px',
   background: '#ffffff',
-  border: '1px solid rgba(232, 236, 240, 0.6)',
-  boxShadow: '0 2px 16px rgba(0,0,0,0.02)',
+  border: '1px solid #eef2f6',
+  boxShadow: '0 1px 4px rgba(0,0,0,0.02)',
   position: 'relative',
   overflow: 'hidden',
   cursor: 'pointer',
-  transition: 'all 0.6s cubic-bezier(0.23, 1, 0.32, 1)',
+  transition: 'all 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
   display: 'flex',
   flexDirection: 'column',
   '&:hover': {
-    transform: 'translateY(-12px)',
+    transform: 'translateY(-8px)',
     borderColor: color || '#1a56db',
-    boxShadow: `0 24px 64px ${alpha(color || '#1a56db', 0.06)}, 0 8px 24px ${alpha(color || '#1a56db', 0.02)}`,
+    boxShadow: `0 16px 48px ${alpha(color || '#1a56db', 0.06)}, 0 4px 12px ${alpha(color || '#1a56db', 0.02)}`,
+  },
+  // Left accent border
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: '4px',
+    background: color || '#1a56db',
+    opacity: 0,
+    transition: 'opacity 0.4s ease, transform 0.4s ease',
+    transform: 'scaleY(0.5)',
+    borderRadius: '0 2px 2px 0',
+  },
+  '&:hover::before': {
+    opacity: 1,
+    transform: 'scaleY(1)',
   },
 }));
 
-// Decorative corner accent
-const CornerAccent = styled(Box)(({ theme, color }) => ({
-  position: 'absolute',
-  top: 0,
-  right: 0,
-  width: '80px',
-  height: '80px',
-  background: `linear-gradient(135deg, transparent 50%, ${alpha(color || '#1a56db', 0.04)} 50%)`,
-  pointerEvents: 'none',
-  borderRadius: '0 24px 0 0',
-  transition: 'all 0.5s ease',
-  '&:hover': {
-    background: `linear-gradient(135deg, transparent 50%, ${alpha(color || '#1a56db', 0.08)} 50%)`,
-  },
-}));
-
-// Card header with avatar-like icon
+// Card Header with left-aligned content
 const CardHeader = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2.5, 3, 1.5),
   display: 'flex',
   alignItems: 'center',
   gap: theme.spacing(2),
-  position: 'relative',
+  borderBottom: '1px solid #f1f4f8',
 }));
 
-// Premium icon with gradient border
-const PremiumIcon = styled(motion.div)(({ theme, gradient }) => ({
-  width: '48px',
-  height: '48px',
-  borderRadius: '14px',
+// Icon wrapper with circular design
+const IconWrapper = styled(motion.div)(({ theme, gradient }) => ({
+  width: '44px',
+  height: '44px',
+  borderRadius: '12px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  fontSize: '1.6rem',
+  fontSize: '1.5rem',
   background: gradient || 'linear-gradient(135deg, rgba(26,86,219,0.06), rgba(96,165,250,0.04))',
-  border: '2px solid rgba(26,86,219,0.06)',
+  border: '1px solid rgba(26,86,219,0.06)',
   flexShrink: 0,
-  position: 'relative',
-  transition: 'all 0.4s ease',
+  transition: 'all 0.3s ease',
   '&:hover': {
-    transform: 'scale(1.08) rotate(-8deg)',
-    borderColor: '#1a56db',
+    transform: 'scale(1.05) rotate(-5deg)',
   },
 }));
 
-// Status dot with ring
-const StatusDot = styled(Box)(({ status }) => ({
-  width: '10px',
-  height: '10px',
-  borderRadius: '50%',
-  background: status === 'completed' ? '#059669' : '#1a56db',
-  border: '2px solid #ffffff',
-  boxShadow: `0 0 0 2px ${status === 'completed' ? 'rgba(5,150,105,0.2)' : 'rgba(26,86,219,0.2)'}`,
-  display: 'inline-block',
-  animation: status === 'completed' ? 'none' : 'pulseRing 2s ease-in-out infinite',
-  '@keyframes pulseRing': {
-    '0%, 100%': { boxShadow: '0 0 0 2px rgba(26,86,219,0.2)' },
-    '50%': { boxShadow: '0 0 0 6px rgba(26,86,219,0.05)' },
+// Status indicator
+const StatusIndicator = styled(Box)(({ status }) => ({
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '6px',
+  fontSize: '0.55rem',
+  fontWeight: 600,
+  color: status === 'completed' ? '#059669' : '#1a56db',
+  '& .dot': {
+    width: '6px',
+    height: '6px',
+    borderRadius: '50%',
+    background: status === 'completed' ? '#059669' : '#1a56db',
+    animation: status === 'completed' ? 'none' : 'pulseDot 2s ease-in-out infinite',
+  },
+  '@keyframes pulseDot': {
+    '0%, 100%': { opacity: 1, transform: 'scale(1)' },
+    '50%': { opacity: 0.4, transform: 'scale(0.6)' },
   },
 }));
 
-// Card body with content
+// Card Body
 const CardBody = styled(Box)(({ theme }) => ({
-  padding: theme.spacing(0, 3, 2),
+  padding: theme.spacing(1.5, 3, 2),
   flex: 1,
   display: 'flex',
   flexDirection: 'column',
-  gap: theme.spacing(1.2),
+  gap: theme.spacing(1),
 }));
 
-// Title with gradient line
-const TitleSection = styled(Box)(({ theme, color }) => ({
-  '& .title': {
-    fontSize: '0.95rem',
-    fontWeight: 700,
-    color: '#0a1628',
-    lineHeight: 1.3,
-  },
-  '& .subtitle': {
-    fontSize: '0.7rem',
-    color: '#94a3b8',
-    fontWeight: 500,
+// Feature list with minimal bullets
+const FeatureList = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: theme.spacing(0.5),
+  marginBottom: theme.spacing(1),
+  '& .feature-item': {
     display: 'flex',
     alignItems: 'center',
-    gap: '6px',
+    gap: theme.spacing(1),
+    fontSize: '0.72rem',
+    color: '#475569',
+    '& .bullet': {
+      width: '3px',
+      height: '3px',
+      borderRadius: '50%',
+      background: '#1a56db',
+      flexShrink: 0,
+    },
   },
 }));
 
-// Feature list with checkmarks
-const FeatureItem = styled(motion.div)(({ theme }) => ({
+// Tech stack with minimal tags
+const TechStack = styled(Box)(({ theme }) => ({
   display: 'flex',
-  alignItems: 'center',
-  gap: theme.spacing(1),
-  fontSize: '0.72rem',
-  color: '#475569',
-  padding: '2px 0',
-  '& .check': {
-    color: '#1a56db',
-    fontSize: '0.65rem',
-    fontWeight: 700,
+  flexWrap: 'wrap',
+  gap: '4px',
+  marginTop: 'auto',
+  '& .tech-tag': {
+    padding: '2px 10px',
+    borderRadius: '100px',
+    background: '#f8faff',
+    color: '#64748b',
+    fontSize: '0.5rem',
+    fontWeight: 500,
+    border: '1px solid #eef2f6',
+    transition: 'all 0.3s ease',
+    '&:hover': {
+      background: 'rgba(26,86,219,0.04)',
+      borderColor: '#1a56db',
+      color: '#1a56db',
+    },
   },
 }));
 
-// Tech tags with hover effect
-const TechTag = styled(motion.div)(({ theme }) => ({
-  padding: '2px 12px',
-  borderRadius: '100px',
-  background: '#f8faff',
-  color: '#64748b',
-  fontSize: '0.5rem',
-  fontWeight: 500,
-  border: '1px solid #eef2f6',
-  transition: 'all 0.3s ease',
-  '&:hover': {
-    background: 'rgba(26,86,219,0.04)',
-    borderColor: '#1a56db',
-    color: '#1a56db',
-    transform: 'translateY(-2px)',
-    boxShadow: '0 2px 8px rgba(26,86,219,0.04)',
-  },
-}));
-
-// Card footer with progress
+// Card Footer
 const CardFooter = styled(Box)(({ theme }) => ({
   padding: theme.spacing(1.5, 3, 2.5),
-  borderTop: '1px solid rgba(0,0,0,0.03)',
+  borderTop: '1px solid #f1f4f8',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
   gap: 1.5,
-  background: 'linear-gradient(180deg, transparent, rgba(26,86,219,0.01))',
 }));
 
-// Elegant progress
-const ElegantProgress = styled(Box)(({ theme, color }) => ({
+// Progress bar with minimal design
+const MinimalProgress = styled(Box)(({ theme, color }) => ({
   flex: 1,
-  height: '4px',
-  borderRadius: '4px',
-  background: 'rgba(0,0,0,0.03)',
+  height: '3px',
+  borderRadius: '2px',
+  background: '#eef2f6',
   position: 'relative',
   overflow: 'hidden',
   '& .bar': {
     height: '100%',
-    borderRadius: '4px',
-    background: `linear-gradient(90deg, ${color || '#1a56db'}, ${color || '#1a56db'}dd)`,
+    borderRadius: '2px',
+    background: color || '#1a56db',
     transition: 'width 2.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
   },
 }));
@@ -511,7 +456,7 @@ const ElegantProgress = styled(Box)(({ theme, color }) => ({
 // ===== PLACEHOLDER CARD =====
 const PlaceholderCard = styled(motion.div)(({ theme }) => ({
   height: '100%',
-  borderRadius: '24px',
+  borderRadius: '16px',
   background: 'rgba(255,255,255,0.4)',
   backdropFilter: 'blur(12px)',
   border: '2px dashed #d4e6ff',
@@ -530,6 +475,60 @@ const PlaceholderCard = styled(motion.div)(({ theme }) => ({
   },
 }));
 
+// ===== GRADIENT TABS =====
+const TabContainer = styled(Box)(({ theme }) => ({
+  position: 'relative',
+  display: 'inline-flex',
+  padding: '4px',
+  background: 'rgba(255,255,255,0.7)',
+  backdropFilter: 'blur(20px)',
+  borderRadius: '16px',
+  border: '1px solid rgba(255,255,255,0.9)',
+  boxShadow: '0 4px 24px rgba(0,0,0,0.02)',
+}));
+
+const StyledTabs = styled(Tabs)(({ theme }) => ({
+  minHeight: 44,
+  '& .MuiTabs-indicator': {
+    display: 'none',
+  },
+  '& .MuiTabs-flexContainer': {
+    gap: theme.spacing(0.5),
+  },
+}));
+
+const StyledTab = styled(Tab)(({ theme }) => ({
+  textTransform: 'none',
+  fontWeight: 600,
+  fontSize: '0.8rem',
+  color: '#64748b',
+  padding: '6px 22px',
+  minHeight: 36,
+  borderRadius: '12px',
+  transition: 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
+  '&.Mui-selected': {
+    color: '#ffffff',
+    background: 'linear-gradient(135deg, #1a56db, #3b82f6, #60a5fa)',
+    backgroundSize: '200% 200%',
+    boxShadow: '0 4px 20px rgba(26,86,219,0.25)',
+    animation: 'tabGradient 3s ease infinite',
+  },
+  '&:hover': {
+    color: '#1a56db',
+    background: 'rgba(26,86,219,0.04)',
+  },
+  '&.Mui-selected:hover': {
+    color: '#ffffff',
+    background: 'linear-gradient(135deg, #1a56db, #3b82f6, #60a5fa)',
+    backgroundSize: '200% 200%',
+    animation: 'tabGradient 3s ease infinite',
+  },
+  '@keyframes tabGradient': {
+    '0%, 100%': { backgroundPosition: '0% 50%' },
+    '50%': { backgroundPosition: '100% 50%' },
+  },
+}));
+
 // --- Buttons ---
 const ActionButton = styled(motion.button)(({ theme }) => ({
   background: 'linear-gradient(135deg, #1a56db, #3b82f6, #60a5fa)',
@@ -539,30 +538,15 @@ const ActionButton = styled(motion.button)(({ theme }) => ({
   borderRadius: '100px',
   fontWeight: 600,
   textTransform: 'none',
-  padding: '6px 20px',
-  fontSize: '0.7rem',
+  padding: '4px 16px',
+  fontSize: '0.65rem',
   border: 'none',
   cursor: 'pointer',
   transition: 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
-  boxShadow: '0 4px 16px rgba(26,86,219,0.15)',
-  position: 'relative',
-  overflow: 'hidden',
-  '&::before': {
-    content: '""',
-    position: 'absolute',
-    top: 0,
-    left: '-100%',
-    width: '100%',
-    height: '100%',
-    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)',
-    transition: 'left 0.6s ease',
-  },
-  '&:hover::before': {
-    left: '100%',
-  },
+  boxShadow: '0 2px 12px rgba(26,86,219,0.12)',
   '&:hover': {
     transform: 'translateY(-2px) scale(1.04)',
-    boxShadow: '0 8px 32px rgba(26,86,219,0.25)',
+    boxShadow: '0 4px 20px rgba(26,86,219,0.2)',
   },
   '&:disabled': {
     opacity: 0.4,
@@ -587,21 +571,6 @@ const PrimaryButton = styled(Button)(({ theme }) => ({
   fontSize: '0.95rem',
   transition: 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
   boxShadow: '0 4px 24px rgba(26,86,219,0.15)',
-  position: 'relative',
-  overflow: 'hidden',
-  '&::before': {
-    content: '""',
-    position: 'absolute',
-    top: 0,
-    left: '-100%',
-    width: '100%',
-    height: '100%',
-    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent)',
-    transition: 'left 0.6s ease',
-  },
-  '&:hover::before': {
-    left: '100%',
-  },
   '&:hover': {
     boxShadow: '0 8px 40px rgba(26,86,219,0.3)',
     transform: 'translateY(-3px) scale(1.02)',
@@ -697,9 +666,9 @@ export default function Projects() {
   const [selectedProject, setSelectedProject] = useState(null);
 
   const tabs = [
-    { value: 'all', label: 'All Projects', icon: <GridViewIcon sx={{ fontSize: 16 }} /> },
-    { value: 'upcoming', label: 'In Development', icon: <TimelineIcon sx={{ fontSize: 16 }} /> },
-    { value: 'completed', label: 'Completed', icon: <CheckCircleIcon sx={{ fontSize: 16 }} /> },
+    { value: 'all', label: 'All Projects' },
+    { value: 'upcoming', label: 'In Development' },
+    { value: 'completed', label: 'Completed' },
   ];
 
   const getFilteredProjects = () => {
@@ -718,8 +687,8 @@ export default function Projects() {
     return projectsData.filter((p) => p.status === value).length;
   };
 
-  const handleTabChange = (value) => {
-    setTabValue(value);
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
   };
 
   const handleOpenModal = (project) => {
@@ -743,18 +712,18 @@ export default function Projects() {
   const cardVariants = {
     hidden: {
       opacity: 0,
-      y: 60,
-      scale: 0.92,
+      y: 50,
+      scale: 0.95,
     },
     visible: (i) => ({
       opacity: 1,
       y: 0,
       scale: 1,
       transition: {
-        delay: i * 0.07,
-        duration: 0.7,
+        delay: i * 0.06,
+        duration: 0.6,
         type: "spring",
-        stiffness: 100,
+        stiffness: 120,
         damping: 18,
       },
     }),
@@ -769,7 +738,7 @@ export default function Projects() {
       opacity: 1,
       scale: 1,
       transition: {
-        delay: i * 0.07 + 0.3,
+        delay: i * 0.06 + 0.3,
         duration: 0.5,
         type: "spring",
         stiffness: 100,
@@ -783,7 +752,7 @@ export default function Projects() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.07,
+        staggerChildren: 0.06,
         delayChildren: 0.1,
       },
     },
@@ -979,35 +948,63 @@ export default function Projects() {
         </Container>
       </HeroSection>
 
-      {/* ===== PILL TABS SECTION ===== */}
-      <Container maxWidth="lg" sx={{ mt: 2, mb: 3, position: 'relative', zIndex: 2 }}>
+      {/* ===== TABS SECTION ===== */}
+      <Container maxWidth="lg" sx={{ mt: 2, mb: 2, position: 'relative', zIndex: 2 }}>
         <Box sx={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           flexWrap: 'wrap',
           gap: 2,
+          mb: 3,
         }}>
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <PillTabsContainer>
-              {tabs.map((tab) => (
-                <PillTab
-                  key={tab.value}
-                  active={tabValue === tab.value}
-                  onClick={() => handleTabChange(tab.value)}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  {tab.icon}
-                  {tab.label}
-                  <span className="count">{getTabCount(tab.value)}</span>
-                </PillTab>
-              ))}
-            </PillTabsContainer>
+            <TabContainer>
+              <StyledTabs
+                value={tabValue}
+                onChange={handleTabChange}
+              >
+                {tabs.map((tab) => (
+                  <StyledTab
+                    key={tab.value}
+                    value={tab.value}
+                    label={
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                        <span>{tab.label}</span>
+                        <motion.span
+                          key={tab.value}
+                          initial={{ scale: 0.8, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          transition={{ duration: 0.3, type: "spring", stiffness: 300 }}
+                        >
+                          <Box
+                            sx={{
+                              background: tabValue === tab.value ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.04)',
+                              color: tabValue === tab.value ? '#ffffff' : '#64748b',
+                              borderRadius: '100px',
+                              padding: '0 8px',
+                              fontSize: '0.55rem',
+                              fontWeight: 700,
+                              height: '18px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              transition: 'all 0.3s ease',
+                            }}
+                          >
+                            {getTabCount(tab.value)}
+                          </Box>
+                        </motion.span>
+                      </Box>
+                    }
+                  />
+                ))}
+              </StyledTabs>
+            </TabContainer>
           </motion.div>
 
           <motion.div
@@ -1053,139 +1050,97 @@ export default function Projects() {
                       animate="visible"
                       style={{ height: '100%' }}
                     >
-                      <ModernCard color={project.color}>
-                        {/* Corner Accent */}
-                        <CornerAccent color={project.color} />
-
+                      <MinimalCard color={project.color}>
                         {/* Card Header */}
                         <CardHeader>
-                          <PremiumIcon
+                          <IconWrapper
                             gradient={project.gradient}
-                            whileHover={{ scale: 1.08, rotate: -5 }}
+                            whileHover={{ scale: 1.05, rotate: -5 }}
                             transition={{ type: "spring", stiffness: 300 }}
                           >
                             {project.icon}
-                          </PremiumIcon>
+                          </IconWrapper>
                           <Box sx={{ flex: 1, minWidth: 0 }}>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                              <Typography
-                                variant="subtitle1"
-                                sx={{
-                                  fontWeight: 700,
-                                  color: '#0a1628',
-                                  fontSize: '0.9rem',
-                                  lineHeight: 1.2,
-                                  flex: 1,
-                                  whiteSpace: 'nowrap',
-                                  overflow: 'hidden',
-                                  textOverflow: 'ellipsis',
-                                }}
-                              >
-                                {project.title}
-                              </Typography>
-                              <StatusDot status={project.status} />
-                            </Box>
-                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.2 }}>
-                              <Chip
-                                label={project.category}
-                                size="small"
-                                sx={{
-                                  background: 'rgba(26,86,219,0.04)',
-                                  color: '#1a56db',
-                                  border: '1px solid rgba(26,86,219,0.06)',
-                                  fontSize: '0.5rem',
-                                  height: '18px',
-                                }}
-                              />
-                              <Typography
-                                variant="caption"
-                                sx={{
-                                  color: project.status === 'completed' ? '#059669' : '#1a56db',
-                                  fontSize: '0.55rem',
-                                  fontWeight: 600,
-                                }}
-                              >
-                                {project.status === 'completed' ? '✓ Completed' : '⟳ In Progress'}
-                              </Typography>
-                            </Box>
+                            <Typography
+                              variant="subtitle1"
+                              sx={{
+                                fontWeight: 700,
+                                color: '#0a1628',
+                                fontSize: '0.9rem',
+                                lineHeight: 1.2,
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                              }}
+                            >
+                              {project.title}
+                            </Typography>
+                            <StatusIndicator status={project.status}>
+                              <span className="dot" />
+                              {project.status === 'completed' ? 'Completed' : 'In Progress'}
+                            </StatusIndicator>
                           </Box>
+                          <Chip
+                            label={project.category}
+                            size="small"
+                            sx={{
+                              background: 'rgba(26,86,219,0.04)',
+                              color: '#1a56db',
+                              border: '1px solid rgba(26,86,219,0.06)',
+                              fontSize: '0.5rem',
+                              height: '20px',
+                              flexShrink: 0,
+                            }}
+                          />
                         </CardHeader>
 
                         {/* Card Body */}
                         <CardBody>
-                          <TitleSection color={project.color}>
-                            <Typography className="title">{project.title}</Typography>
-                            <Box className="subtitle">
-                              <CalendarTodayIcon sx={{ fontSize: 12 }} />
-                              {project.date}
-                              <PeopleIcon sx={{ fontSize: 12, ml: 1 }} />
-                              {project.team.length} members
-                            </Box>
-                          </TitleSection>
-
                           <Typography
                             variant="body2"
                             sx={{
                               color: '#475569',
                               lineHeight: 1.6,
                               fontSize: '0.78rem',
+                              mb: 0.5,
                             }}
                           >
                             {project.description}
                           </Typography>
 
-                          {/* Feature Items */}
-                          <Box sx={{ mt: 0.5 }}>
-                            {project.details.slice(0, 2).map((detail, i) => (
-                              <FeatureItem
-                                key={i}
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: i * 0.05 }}
-                              >
-                                <span className="check">✓</span>
+                          {/* Feature List */}
+                          <FeatureList>
+                            {project.details.slice(0, 3).map((detail, i) => (
+                              <Box key={i} className="feature-item">
+                                <Box className="bullet" />
                                 {detail}
-                              </FeatureItem>
+                              </Box>
                             ))}
-                            {project.details.length > 2 && (
-                              <FeatureItem>
-                                <span className="check" style={{ color: '#94a3b8' }}>+</span>
-                                <span style={{ color: '#94a3b8', fontSize: '0.65rem' }}>
-                                  {project.details.length - 2} more features
-                                </span>
-                              </FeatureItem>
+                            {project.details.length > 3 && (
+                              <Box className="feature-item" sx={{ color: '#94a3b8', fontSize: '0.65rem' }}>
+                                +{project.details.length - 3} more features
+                              </Box>
                             )}
-                          </Box>
+                          </FeatureList>
 
-                          {/* Tech Tags */}
-                          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, mt: 'auto' }}>
+                          {/* Tech Stack */}
+                          <TechStack>
                             {project.tech.slice(0, 4).map((tech, i) => (
-                              <TechTag
-                                key={i}
-                                whileHover={{ scale: 1.04, y: -2 }}
-                                transition={{ type: "spring", stiffness: 300 }}
-                              >
-                                {tech}
-                              </TechTag>
+                              <span key={i} className="tech-tag">{tech}</span>
                             ))}
                             {project.tech.length > 4 && (
-                              <TechTag
-                                whileHover={{ scale: 1.04, y: -2 }}
-                                transition={{ type: "spring", stiffness: 300 }}
-                              >
-                                +{project.tech.length - 4}
-                              </TechTag>
+                              <span className="tech-tag">+{project.tech.length - 4}</span>
                             )}
-                          </Box>
+                          </TechStack>
                         </CardBody>
 
                         {/* Card Footer */}
                         <CardFooter>
                           <Box sx={{ flex: 1 }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                              <ElegantProgress color={project.color}>
+                              <MinimalProgress color={project.color}>
                                 <div className="bar" style={{ width: `${project.progress}%` }} />
-                              </ElegantProgress>
+                              </MinimalProgress>
                               <Typography
                                 variant="caption"
                                 sx={{
@@ -1198,10 +1153,20 @@ export default function Projects() {
                                 {project.progress}%
                               </Typography>
                             </Box>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.3 }}>
+                              <CalendarTodayIcon sx={{ fontSize: 10, color: '#94a3b8' }} />
+                              <Typography variant="caption" sx={{ color: '#94a3b8', fontSize: '0.5rem' }}>
+                                {project.date}
+                              </Typography>
+                              <PeopleIcon sx={{ fontSize: 10, color: '#94a3b8', ml: 0.5 }} />
+                              <Typography variant="caption" sx={{ color: '#94a3b8', fontSize: '0.5rem' }}>
+                                {project.team.length} members
+                              </Typography>
+                            </Box>
                           </Box>
 
                           {project.status !== 'upcoming' && (
-                            <Tooltip title="View project details" arrow>
+                            <Tooltip title="View details" arrow>
                               <ActionButton
                                 onClick={() => handleOpenModal(project)}
                                 whileHover={{ scale: 1.05 }}
@@ -1212,7 +1177,7 @@ export default function Projects() {
                             </Tooltip>
                           )}
                         </CardFooter>
-                      </ModernCard>
+                      </MinimalCard>
                     </motion.div>
                   </Grid>
                 ))}
@@ -1263,7 +1228,7 @@ export default function Projects() {
                               maxWidth: '180px',
                             }}
                           >
-                            More exciting projects in development
+                            More exciting projects are in the pipeline
                           </Typography>
                           <Box
                             sx={{
@@ -1433,7 +1398,7 @@ export default function Projects() {
                   <Box sx={{
                     width: 56,
                     height: 56,
-                    borderRadius: '14px',
+                    borderRadius: '12px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -1447,18 +1412,10 @@ export default function Projects() {
                     <Typography variant="h5" sx={{ fontWeight: 700, color: '#0a1628' }}>
                       {selectedProject.title}
                     </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.3 }}>
-                      <StatusDot status={selectedProject.status} />
-                      <Typography
-                        variant="caption"
-                        sx={{
-                          color: selectedProject.status === 'completed' ? '#059669' : '#1a56db',
-                          fontWeight: 600,
-                        }}
-                      >
-                        {selectedProject.status === 'completed' ? 'Completed' : 'In Progress'}
-                      </Typography>
-                    </Box>
+                    <StatusIndicator status={selectedProject.status} sx={{ mt: 0.5 }}>
+                      <span className="dot" />
+                      {selectedProject.status === 'completed' ? 'Completed' : 'In Progress'}
+                    </StatusIndicator>
                   </Box>
                 </Box>
 
